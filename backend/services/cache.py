@@ -1,28 +1,43 @@
-# Add to services/cache.py
+# backend/services/cache.py
 from functools import wraps
-import redis
 import pickle
-import json
+import time
+import inspect
 
+# Simple in-memory cache
+_in_memory_cache = {}
 
-# Redis cache for frequently accessed data
 def cache_response(ttl: int = 300):
+    """
+    Cache decorator without Redis. Works for both sync and async functions.
+    """
     def decorator(func):
         @wraps(func)
-        async def wrapper(*args, **kwargs):
+        def sync_wrapper(*args, **kwargs):
             key = f"{func.__name__}:{str(args)}:{str(kwargs)}"
-            # Check cache
-            cached = redis_client.get(key)
-            if cached:
-                return pickle.loads(cached)
+            cached_entry = _in_memory_cache.get(key, None)
 
-            # Execute function
-            result = await func(*args, **kwargs)
-            # Cache result
-            redis_client.setex(key, ttl, pickle.dumps(result))
-            return result
+            # Check cache and expiry
+            if cached_entry:
+                value, expire_at = cached_entry
+                if time.time() < expire_at:
+                    return pickle.loads(value)
+                else:
+                    del _in_memory_cache[key]
 
-        return wrapper
+            # Call function
+            if inspect.iscoroutinefunction(func):
+                # async function
+                async def async_call():
+                    result = await func(*args, **kwargs)
+                    _in_memory_cache[key] = (pickle.dumps(result), time.time() + ttl)
+                    return result
+                return async_call()
+            else:
+                # sync function
+                result = func(*args, **kwargs)
+                _in_memory_cache[key] = (pickle.dumps(result), time.time() + ttl)
+                return result
 
+        return sync_wrapper
     return decorator
-

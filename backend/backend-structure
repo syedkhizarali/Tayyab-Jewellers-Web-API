@@ -1,0 +1,47 @@
+backend/
+│
+├── repositories/
+│     ├── user_repo.py
+│     ├── profile_repo.py
+│     ├── address_repo.py
+│     ├── wishlist_repo.py
+backend/
+│
+├── main.py                     # Application entry point
+├── configs.py                  # Core configuration settings
+├── databases.py                # Database connection and setup
+├── models.py                   # Central import/definition of database ORM models
+├── security.py                 # Core security utilities (e.g., JWT handling)
+├── schemas.py                  # Data validation and serialization definitions
+├── test.py                     # Application-level tests
+├── __init__.py                 # Makes 'backend' a Python package
+│
+├── routes/                     # API Endpoints (Controllers)
+│     ├── admin.py
+│     ├── auth.py
+│     ├── history.py
+│     ├── inventory.py
+│     ├── notify.py             # Notifications/Alerts routes
+│     ├── payments.py
+│     ├── orders.py
+│     ├── products.py
+│     ├── rates.py
+│     └── users.py
+│
+├── services/                   # Business Logic Layer
+│     ├── analytics.py
+│     ├── background.py         # Background task processing
+│     ├── email_services.py
+│     ├── logger.py             # Centralized logging logic
+│     ├── loyalty.py
+│     └── recommendations.py
+│
+├── utils/                      # Helper Functions and Common Tools
+│     ├── calculations.py
+│     ├── discount.py
+│     ├── hashing.py
+│     ├── scraper.py
+│     └── statistics.py
+│
+└── scripts/                    # Standalone Scripts
+      └── seed_data.py          # Script for populating test data

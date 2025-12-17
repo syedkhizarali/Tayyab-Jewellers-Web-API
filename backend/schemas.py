@@ -1,13 +1,15 @@
-from datetime import datetime
+# backend/schemas.py
+from datetime import datetime, date
 from enum import Enum
 from typing import Optional, List
 from pydantic import BaseModel, EmailStr, Field
+from pydantic import ConfigDict
 
 # --- Payment Enums ---
 class PaymentMethod(str, Enum):
     BANK_TRANSFER = "bank_transfer"
     JAZZ_CASH = "jazz_cash"
-    EASYPAISA = "easypaisa"
+    EASYPAISA = "easyPaisa"
     STRIPE = "stripe"
     PAYPAL = "paypal"
 
@@ -33,8 +35,7 @@ class UserOut(BaseModel):
     is_admin: bool
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Products ---
 class ProductCreate(BaseModel):
@@ -52,8 +53,7 @@ class ProductOut(ProductCreate):
     id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Orders ---
 class OrderItemCreate(BaseModel):
@@ -67,8 +67,7 @@ class OrderItemOut(BaseModel):
     unit_price: float
     total_price: float
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class OrderCreate(BaseModel):
     user_id: int
@@ -86,8 +85,7 @@ class OrderOut(BaseModel):
     placed_at: datetime
     items: List[OrderItemOut]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Token ---
 class Token(BaseModel):
@@ -105,12 +103,10 @@ class PaymentCreate(BaseModel):
     method: PaymentMethod
     amount: float
     currency: str = "PKR"
-    # For bank transfers
     bank_name: Optional[str] = None
     account_number: Optional[str] = None
     transaction_id: Optional[str] = None
-    # For digital payments
-    payment_token: Optional[str] = None  # For Stripe/PayPal
+    payment_token: Optional[str] = None
 
 class PaymentOut(BaseModel):
     id: int
@@ -123,8 +119,7 @@ class PaymentOut(BaseModel):
     transaction_id: Optional[str]
     paid_at: Optional[datetime]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Gold Rates ---
 class GoldRateCreate(BaseModel):
@@ -140,8 +135,7 @@ class GoldRateOut(BaseModel):
     source: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Gold History ---
 class GoldHistoryIn(BaseModel):
@@ -165,13 +159,12 @@ class GoldAnalysisOut(GoldAnalysisCreate):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class GoldAnalysisWithAuthor(GoldAnalysisOut):
     author_name: str
     author_email: str
-# Add this in your schemas.py after the Product classes
+
 class ProductFilter(BaseModel):
     min_price: Optional[float] = None
     max_price: Optional[float] = None
@@ -179,3 +172,58 @@ class ProductFilter(BaseModel):
     karat: Optional[int] = None
     category: Optional[str] = None
     in_stock: Optional[bool] = None
+
+class UserProfileBase(BaseModel):
+    phone: Optional[str] = None
+    dob: Optional[date] = None
+    gender: Optional[str] = None
+
+class UserProfileCreate(UserProfileBase):
+    pass
+
+class UserProfileUpdate(UserProfileBase):
+    pass
+
+class UserProfileResponse(UserProfileBase):
+    id: int
+    profile_photo: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True)
+
+class AddressBase(BaseModel):
+    full_name: Optional[str] = None
+    phone: Optional[str] = None
+    address_line1: str
+    address_line2: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    postal_code: Optional[str] = None
+    country: Optional[str] = None
+    is_default: Optional[bool] = False
+
+class AddressCreate(AddressBase):
+    pass
+
+class AddressUpdate(AddressBase):
+    pass
+
+class AddressResponse(AddressBase):
+    id: int
+    user_id: int
+    created_at: Optional[datetime]
+
+    model_config = ConfigDict(from_attributes=True)
+
+# Wishlist schemas
+class WishlistBase(BaseModel):
+    product_id: int
+
+class WishlistCreate(WishlistBase):
+    pass
+
+class WishlistResponse(WishlistBase):
+    id: int
+    user_id: int
+    added_at: Optional[datetime]
+
+    model_config = ConfigDict(from_attributes=True)

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Jewelry Collection - GoldCraft</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/navbar.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation (Same as index.html) -->
+    <nav class="navbar">
+        <!-- Same navbar structure -->
+    </nav>
+
+    <!-- Products Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Gold Jewelry Collection</h1>
+            <p>Browse our exclusive collection of handcrafted gold jewelry</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-layout">
+                <!-- Filters Sidebar -->
+                <aside class="filters-sidebar">
+                    <div class="filter-group">
+                        <h3>Filters</h3>
+                        <button class="clear-filters" id="clearFilters">Clear All</button>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Price Range</h4>
+                        <div class="price-range">
+                            <div class="range-inputs">
+                                <input type="number" id="minPrice" placeholder="Min" min="0">
+                                <span>to</span>
+                                <input type="number" id="maxPrice" placeholder="Max" min="0">
+                            </div>
+                            <button class="btn btn-sm" id="applyPrice">Apply</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Metal Type</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="metal" value="gold">
+                                <span>Gold</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="metal" value="white-gold">
+                                <span>White Gold</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="metal" value="rose-gold">
+                                <span>Rose Gold</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Karat</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="karat" value="24">
+                                <span>24K</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="karat" value="22">
+                                <span>22K</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="karat" value="21">
+                                <span>21K</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="karat" value="18">
+                                <span>18K</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Category</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="rings">
+                                <span>Rings</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="necklaces">
+                                <span>Necklaces</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="bracelets">
+                                <span>Bracelets</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="earrings">
+                                <span>Earrings</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="bangles">
+                                <span>Bangles</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Stock Status</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" id="inStockOnly">
+                                <span>In Stock Only</span>
+                            </label>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Products Grid -->
+                <main class="products-main">
+                    <div class="products-header">
+                        <div class="sort-options">
+                            <select id="sortBy" class="sort-select">
+                                <option value="newest">Newest First</option>
+                                <option value="price_low">Price: Low to High</option>
+                                <option value="price_high">Price: High to Low</option>
+                                <option value="name">Name A-Z</option>
+                            </select>
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i></button>
+                                <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
+                            </div>
+                        </div>
+                        <div class="results-count">
+                            Showing <span id="resultsCount">0</span> products
+                        </div>
+                    </div>
+
+                    <div class="products-container" id="productsContainer">
+                        <!-- Products loaded via JS -->
+                    </div>
+
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination loaded via JS -->
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="footer">
+        <!-- Same footer structure -->
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/api/products.js"></script>
+    <script src="js/ui/productCard.js"></script>
+</body>
+</html>

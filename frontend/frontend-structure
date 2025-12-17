@@ -1,0 +1,55 @@
+frontend/
+│
+├── index.html                 # Home page
+├── about.html                 # About shop
+├── products.html              # Product listing
+├── product-details.html       # Single product page
+├── cart.html                  # Cart page
+├── checkout.html              # Checkout page
+├── orders.html                # User order history
+│
+├── login.html                 # Login
+├── register.html              # Register
+│
+├── profile.html               # User profile page (NEW)
+├── addresses.html             # Manage addresses (NEW)
+├── wishlist.html              # Wishlist page (NEW)
+│
+├── admin/                     # Admin panel pages (optional)
+│     ├── dashboard.html
+│     ├── add-product.html
+│     ├── manage-products.html
+│     └── orders.html
+│
+├── css/
+│     ├── main.css             # All custom styling
+│     ├── responsive.css       # Mobile/tablet responsiveness
+│     └── components/          # Buttons, cards, navbar, forms etc
+│           ├── navbar.css
+│           ├── cards.css
+│           ├── forms.css
+│           └── profile.css
+│
+├── js/
+│     ├── api/                 # All API calls (matched to backend routes)
+│     │     ├── auth.js
+│     │     ├── profile.js
+│     │     ├── addresses.js
+│     │     ├── wishlist.js
+│     │     ├── products.js
+│     │     ├── orders.js
+│     │     └── utils.js
+│     │
+│     ├── ui/                  # UI: DOM updates
+│     │     ├── navbar.js
+│     │     ├── productCard.js
+│     │     ├── wishlistCard.js
+│     │     └── helpers.js
+│     │
+│     ├── main.js              # Global scripts
+│     └── authGuard.js         # Protect pages if not logged in
+│
+└── assets/
+      ├── images/
+      ├── icons/
+      └── uploads/             # Uploaded profile pictures (optional)

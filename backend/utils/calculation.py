@@ -1,4 +1,4 @@
-from app.configs import settings
+from backend.configs import settings
 
 def price_per_gram_from_tola(price_per_tola: float) -> float:
     return price_per_tola / settings.TOla_WEIGHT_GRAM

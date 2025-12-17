@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from app.database import SessionLocal
-from app.models import GoldRateHistory
+from backend.database import SessionLocal
+from backend.models import GoldRateHistory
 import io
 
 def generate_gold_history_chart():

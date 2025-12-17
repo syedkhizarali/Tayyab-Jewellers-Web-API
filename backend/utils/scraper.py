@@ -1,20 +1,32 @@
 import requests
 from bs4 import BeautifulSoup
-from app.configs import settings
+from backend.configs import settings
 
-def scrape_24k_tola_from_goldrateupdate() -> float | None:
+def scrape_gold_prices() -> dict[str, float] | None:
     """
-    Scrape 24K gold price per tola from the GOLD_SCRAPER_URL.
-    Returns float if successful, None if fails.
+    Scrape gold prices (24K, 22K, 21K, 18K) per tola from the GOLD_SCRAPER_URL.
+    Returns a dictionary with karat as key and price as float.
+    Example: {"24K": 215000.0, "22K": 198000.0, ...}
+    Returns None if scraping fails.
     """
     try:
         url = settings.GOLD_SCRAPER_URL
         res = requests.get(url, timeout=10)
+        res.raise_for_status()  # Raise exception for bad responses
         soup = BeautifulSoup(res.text, "html.parser")
-        # Example: Find table or span containing 24K gold price
         text = soup.get_text()
-        price_str = text.split("24K")[1].split()[0].replace(",", "")
-        return float(price_str)
+
+        gold_prices = {}
+        for karat in ["24K", "22K", "21K", "18K"]:
+            try:
+                # Find the first number after the karat
+                price_str = text.split(karat)[1].split()[0].replace(",", "")
+                gold_prices[karat] = float(price_str)
+            except (IndexError, ValueError):
+                gold_prices[karat] = None  # Price not found
+
+        return gold_prices
+
     except Exception as e:
         print("Scraping failed:", e)
         return None

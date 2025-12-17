@@ -1,17 +1,25 @@
 import asyncio
+from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, logger
 from sqlalchemy.orm import Session
 from backend.database import get_db
 from backend.models import Order, OrderItem, Product, User
 from backend.schemas import OrderCreate, OrderOut
-from backend.security import require_admin
+from backend.security import require_admin, get_current_user
 from backend.services.email_services import send_email_smtp, send_order_status_email
 from backend.utils.discount import calculate_loyalty_discount
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 LOW_STOCK_THRESHOLD = 2
-
+# Add this to backend/routes/orders.py
+@router.get("/me", response_model=List[OrderOut])
+def get_my_orders(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    orders = db.query(Order).filter(Order.user_id == current_user.id).order_by(Order.placed_at.desc()).all()
+    return orders
 @router.post("/", response_model=OrderOut)
 def create_order(order_in: OrderCreate, background: BackgroundTasks, db: Session = Depends(get_db)):
     total_price = 0

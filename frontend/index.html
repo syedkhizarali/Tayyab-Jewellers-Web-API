@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TAYYAAB JEWELLERS - Premium Gold & Diamond Jewelry</title>
+        <!-- Bootstrap 5 CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- Google Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
+            rel="stylesheet">
+        <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #FFD700;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f8f9fa;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-dark);
+        }
+        .gold-text { color: var(--primary-gold); }
+        .gold-bg {
+            background-color: var(--primary-gold);
+            color: white;
+        }
+        .navbar { background-color: rgba(255,255,255,0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 15px 0; }
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-gold) !important;
+        }
+        .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        .nav-link:hover { color: var(--primary-gold) !important; }
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+        .product-card {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .product-img { height: 250px; object-fit: cover; width: 100%; }
+        .product-price { color: var(--primary-gold); font-size: 1.25rem; font-weight: 600; }
+        .metal-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-gold);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .gold-rates {
+            background: linear-gradient(135deg, #2c3e50, #1a1a1a);
+            color: white;
+            padding: 60px 0;
+        }
+        .rate-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .auth-form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .form-control:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 0.2rem rgba(212,175,55,0.25);
+        }
+        .dashboard-sidebar {
+            background: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            padding: 0;
+        }
+        .sidebar-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .sidebar-item:hover, .sidebar-item.active {
+            background: rgba(212,175,55,0.2);
+            border-left: 4px solid var(--primary-gold);
+        }
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        .footer h5 { color: var(--primary-gold); margin-bottom: 20px; }
+        .btn-gold {
+            background: var(--primary-gold);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .btn-gold:hover {
+            background: #b8941f;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .cart-item, .wishlist-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 768px) {
+            .hero-section { padding: 80px 0; }
+            .navbar-nav { text-align: center; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade { animation: fadeIn 0.6s ease-out; }
+        .category-filter { margin-bottom: 30px; }
+        .category-btn {
+            background: none;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 8px 20px;
+            margin: 0 5px 10px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+    </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <i class="fas fa-gem me-2"></i>TAYYAAB JEWELLERS
+                </a>
+                <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link"
+                                href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="#products">Products</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="#gold-rates">Gold Rates</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="#analysis">Market Analysis</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                                id="userDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i>
+                                Account
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                        href="login.html">Login</a></li>
+                                <li><a class="dropdown-item"
+                                        href="register.html">Register</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#dashboardModal">My
+                                        Dashboard</a></li>
+                                <li><a class="dropdown-item text-danger"
+                                        href="javascript:void(0)">Logout</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal"
+                                data-bs-target="#cartModal">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span
+                                    class="badge bg-danger cart-count">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal"
+                                data-bs-target="#wishlistModal">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="display-3 text-white mb-4">Timeless Elegance
+                            in Every Piece</h1>
+                        <p class="lead mb-4">Discover our exclusive collection
+                            of premium gold and diamond jewelry, crafted with
+                            precision and passion for generations.</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="#products" class="btn btn-gold btn-lg">
+                                <i class="fas fa-shopping-bag me-2"></i>Shop Now
+                            </a>
+                            <a href="#gold-rates"
+                                class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-chart-line me-2"></i>Live Gold
+                                Rates
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Categories -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="gold-text">Shop by Category</h2>
+                    <p class="text-muted">Browse our exquisite collections</p>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-3 mb-4">
+                        <div class="category-card p-4 rounded"
+                            style="background: white;">
+                            <i class="fas fa-ring fa-3x gold-text mb-3"></i>
+                            <h5>Rings</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="category-card p-4 rounded"
+                            style="background: white;">
+                            <i class="fas fa-gem fa-3x gold-text mb-3"></i>
+                            <h5>Necklaces</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="category-card p-4 rounded"
+                            style="background: white;">
+                            <i
+                                class="fas fa-hand-sparkles fa-3x gold-text mb-3"></i>
+                            <h5>Bracelets</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="category-card p-4 rounded"
+                            style="background: white;">
+                            <i class="fas fa-star fa-3x gold-text mb-3"></i>
+                            <h5>Earrings</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="gold-text">Featured Collection</h2>
+                    <p class="text-muted">Handcrafted perfection in every
+                        detail</p>
+                </div>
+                <div class="category-filter text-center mb-4">
+                    <button class="category-btn active">All</button>
+                    <button class="category-btn">24K Gold</button>
+                    <button class="category-btn">Diamond</button>
+                    <button class="category-btn">Platinum</button>
+                    <button class="category-btn">Ready Made</button>
+                </div>
+                <div class="row">
+                    <!-- Product 1 -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card product-card h-100">
+                            <div class="position-relative">
+                                <img
+                                    src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                    class="card-img-top product-img"
+                                    alt="Gold Ring">
+                                <span class="metal-badge">24K Gold</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Classic Solitaire
+                                    Ring</h5>
+                                <p class="card-text text-muted small">Elegant
+                                    24K gold band with single diamond.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="product-price mb-0">PKR
+                                            125,000</p>
+                                        <small class="text-muted">5.2g</small>
+                                    </div>
+                                    <div>
+                                        <button
+                                            class="btn btn-sm btn-outline-gold">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card product-card h-100">
+                            <div class="position-relative">
+                                <img
+                                    src="https://images.unsplash.com/photo-1605228603283-d50343b6f56b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                    class="card-img-top product-img"
+                                    alt="Diamond Necklace">
+                                <span class="metal-badge">Diamond</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Diamond Pendant
+                                    Necklace</h5>
+                                <p class="card-text text-muted small">18K gold
+                                    chain with 0.5ct diamond.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="product-price mb-0">PKR
+                                            295,000</p>
+                                        <small class="text-muted">8.4g</small>
+                                    </div>
+                                    <div>
+                                        <button
+                                            class="btn btn-sm btn-outline-gold">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card product-card h-100">
+                            <div class="position-relative">
+                                <img
+                                    src="https://images.unsplash.com/photo-1608044978599-13346e530498?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                    class="card-img-top product-img"
+                                    alt="Bangle">
+                                <span class="metal-badge">22K Gold</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Traditional Gold
+                                    Bangle</h5>
+                                <p
+                                    class="card-text text-muted small">Hand-engraved
+                                    22K gold bangle.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="product-price mb-0">PKR
+                                            185,000</p>
+                                        <small class="text-muted">22.1g</small>
+                                    </div>
+                                    <div>
+                                        <button
+                                            class="btn btn-sm btn-outline-gold">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 4 -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card product-card h-100">
+                            <div class="position-relative">
+                                <img
+                                    src="https://images.unsplash.com/photo-1599642309189-3b78bde822d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                    class="card-img-top product-img"
+                                    alt="Earrings">
+                                <span class="metal-badge">Platinum</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Platinum Stud
+                                    Earrings</h5>
+                                <p class="card-text text-muted small">Modern
+                                    platinum with white diamonds.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="product-price mb-0">PKR
+                                            112,500</p>
+                                        <small class="text-muted">3.8g</small>
+                                    </div>
+                                    <div>
+                                        <button
+                                            class="btn btn-sm btn-outline-gold">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gold Rates -->
+        <section id="gold-rates" class="gold-rates py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="gold-text">Live Gold Rates</h2>
+                    <p class="text-light">Updated as of Dec 15, 2025</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <div class="rate-card">
+                            <h3 class="gold-text">24K Gold</h3>
+                            <div class="mt-4">
+                                <p class="mb-2">Per Tola: <strong>PKR
+                                        215,000</strong></p>
+                                <p class="mb-0">Per Gram: <strong>PKR
+                                        18,400</strong></p>
+                            </div>
+                            <small class="text-light">Updated: 10:45 AM</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="rate-card">
+                            <h3 class="gold-text">22K Gold</h3>
+                            <div class="mt-4">
+                                <p class="mb-2">Per Tola: <strong>PKR
+                                        197,000</strong></p>
+                                <p class="mb-0">Per Gram: <strong>PKR
+                                        16,900</strong></p>
+                            </div>
+                            <small class="text-light">Updated: 10:45 AM</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="rate-card">
+                            <h3 class="gold-text">21K Gold</h3>
+                            <div class="mt-4">
+                                <p class="mb-2">Per Tola: <strong>PKR
+                                        188,382</strong></p>
+                                <p class="mb-0">Per Gram: <strong>PKR
+                                        16,150</strong></p>
+                            </div>
+                            <small class="text-light">Updated: 10:45 AM</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="rate-card">
+                            <h3 class="gold-text">18K Gold</h3>
+                            <div class="mt-4">
+                                <p class="mb-2">Per Tola: <strong>PKR
+                                        161,250</strong></p>
+                                <p class="mb-0">Per Gram: <strong>PKR
+                                        13,821</strong></p>
+                            </div>
+                            <small class="text-light">Updated: 10:45 AM</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Analysis -->
+        <section id="analysis" class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="gold-text">Gold Market Analysis</h2>
+                    <p class="text-muted">Expert insights and market trends</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title gold-text">Gold Prices
+                                    Expected to Rise in Q1 2026</h5>
+                                <p class="card-text">Global uncertainty and
+                                    inflation concerns are likely to drive gold
+                                    demand upward in early 2026...</p>
+                                <a href="#" class="btn btn-sm btn-gold">Read
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title gold-text">Why 22K Gold
+                                    Dominates Pakistani Market</h5>
+                                <p class="card-text">Cultural preference for
+                                    durability and tradition keeps 22K as the
+                                    go-to choice for bridal sets...</p>
+                                <a href="#" class="btn btn-sm btn-gold">Read
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title gold-text">Lab-Grown
+                                    Diamonds: Trend or Future?</h5>
+                                <p class="card-text">Affordable brilliance is
+                                    gaining traction among Gen Z buyers—here’s
+                                    what it means for jewelers...</p>
+                                <a href="#" class="btn btn-sm btn-gold">Read
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title gold-text">Diwali Demand
+                                    Boosts Gold Sales by 22%</h5>
+                                <p class="card-text">Festive season saw record
+                                    footfall in Lahore and Karachi stores, with
+                                    ready-made sets flying off shelves...</p>
+                                <a href="#" class="btn btn-sm btn-gold">Read
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modals -->
+
+        <!-- Cart Modal (STATIC) -->
+        <div class="modal fade" id="cartModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header gold-bg">
+                        <h5 class="modal-title">Shopping Cart</h5>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Cart Item 1 -->
+                        <div class="cart-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        class="img-fluid rounded"
+                                        alt="Gold Ring">
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Classic Solitaire Ring</h6>
+                                    <small class="text-muted">5.2g • 24K
+                                        Gold</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="mb-0 gold-text">PKR 125,000</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary">–</button>
+                                    <span class="mx-2">1</span>
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart Item 2 -->
+                        <div class="cart-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1605228603283-d50343b6f56b?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        class="img-fluid rounded"
+                                        alt="Necklace">
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Diamond Pendant Necklace</h6>
+                                    <small class="text-muted">8.4g •
+                                        Diamond</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="mb-0 gold-text">PKR 295,000</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary">–</button>
+                                    <span class="mx-2">1</span>
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart Item 3 -->
+                        <div class="cart-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1608044978599-13346e530498?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        class="img-fluid rounded" alt="Bangle">
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Traditional Gold Bangle</h6>
+                                    <small class="text-muted">22.1g • 22K
+                                        Gold</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="mb-0 gold-text">PKR 185,000</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary">–</button>
+                                    <span class="mx-2">1</span>
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end mt-4">
+                            <h4>Total: <span class="gold-text">PKR
+                                    605,000</span></h4>
+                            <a href="javascript:void(0)"
+                                class="btn btn-gold btn-lg disabled">Proceed to
+                                Checkout (Login Required)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Modal (STATIC – PROFILE SECTION) -->
+        <div class="modal fade" id="dashboardModal" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header gold-bg">
+                        <h5 class="modal-title">My Dashboard</h5>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div class="row g-0">
+                            <div class="col-md-3 dashboard-sidebar">
+                                <div class="sidebar-item active">
+                                    <i class="fas fa-user me-2"></i>My Profile
+                                </div>
+                                <div class="sidebar-item">
+                                    <i class="fas fa-shopping-bag me-2"></i>My
+                                    Orders
+                                </div>
+                                <div class="sidebar-item">
+                                    <i
+                                        class="fas fa-map-marker-alt me-2"></i>Addresses
+                                </div>
+                                <div class="sidebar-item">
+                                    <i class="fas fa-heart me-2"></i>Wishlist
+                                </div>
+                            </div>
+                            <div class="col-md-9 p-4">
+                                <h4>My Profile</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img
+                                            src="https://via.placeholder.com/100?text=Profile"
+                                            class="img-fluid rounded-circle"
+                                            alt="Profile">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p><strong>Name:</strong> Ali Hassan</p>
+                                        <p><strong>Email:</strong>
+                                            ali@example.com</p>
+                                        <p><strong>Phone:</strong> +92 300
+                                            1234567</p>
+                                        <p><strong>Gender:</strong> Male</p>
+                                        <p><strong>Member Since:</strong> Jan
+                                            2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wishlist Modal (STATIC) -->
+        <div class="modal fade" id="wishlistModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header gold-bg">
+                        <h5 class="modal-title">Wishlist</h5>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1605228603283-d50343b6f56b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                        class="card-img-top" height="150"
+                                        style="object-fit:cover">
+                                    <div class="card-body">
+                                        <h6>Diamond Pendant Necklace</h6>
+                                        <p class="text-muted">PKR 295,000</p>
+                                        <button class="btn btn-sm btn-gold">Add
+                                            to Cart</button>
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1599642309189-3b78bde822d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                        class="card-img-top" height="150"
+                                        style="object-fit:cover">
+                                    <div class="card-body">
+                                        <h6>Platinum Stud Earrings</h6>
+                                        <p class="text-muted">PKR 112,500</p>
+                                        <button class="btn btn-sm btn-gold">Add
+                                            to Cart</button>
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <h5><i class="fas fa-gem me-2"></i>TAYYAAB
+                            JEWELLERS</h5>
+                        <p>Crafting exquisite jewelry since 1995.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5>Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-light">About Us</a></li>
+                            <li><a href="#products"
+                                    class="text-light">Collections</a></li>
+                            <li><a href="#gold-rates" class="text-light">Gold
+                                    Rates</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5>Contact Info</h5>
+                        <p><i class="fas fa-map-marker-alt me-2"></i>Mian Market
+                            Township Lahore</p>
+                        <p><i class="fas fa-phone me-2"></i> +92 315 4844005</p>
+                        <p><i class="fas fa-phone me-2"></i> +92 344 4037880</p>
+                        <p><i class="fas fa-envelope me-2"></i>
+                            syedkhizarali43@gmail.com</p>
+                    </div>
+                </div>
+                <hr class="bg-light">
+                <div class="text-center">
+                    <p>&copy; 2025 TAYYAAB JEWELLERS. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS (only for modals/toggles — no app logic) -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

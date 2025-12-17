@@ -9,7 +9,7 @@ from backend.database import get_db
 from backend.models import User
 
 # OAuth2 scheme to extract token from Authorization header
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
 
 # Create a JWT access token
