@@ -146,7 +146,7 @@ export default function Home() {
       </div>
 
       {/* ── Categories ── */}
-      <section style={{ padding: '72px 0 40px' }}>
+      <section style={{ padding: '48px 0 24px' }}>
         <div className="container">
           <RevealSection>
             <div className="text-center mb-4">
@@ -174,7 +174,7 @@ export default function Home() {
       </section>
 
       {/* ── Featured Products ── */}
-      <section style={{ padding: '40px 0 72px', background: 'var(--black-soft)' }}>
+      <section style={{ padding: '24px 0 48px', background: 'var(--black-soft)' }}>
         <div className="container">
           <RevealSection>
             <div className="d-flex align-items-end justify-content-between mb-4 flex-wrap gap-3">

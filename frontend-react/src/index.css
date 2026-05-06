@@ -63,8 +63,8 @@ button { cursor: pointer; }
 ::selection { background: var(--gold-primary); color: var(--black-rich); }
 
 /* ---- Section spacing ---- */
-.section-pad { padding: 90px 0; }
-@media (max-width: 768px) { .section-pad { padding: 56px 0; } }
+.section-pad { padding: 48px 0; }
+@media (max-width: 768px) { .section-pad { padding: 32px 0; } }
 
 /* ---- Section Reveal Animation ---- */
 .section-reveal {
@@ -1606,6 +1606,28 @@ button { cursor: pointer; }
 /* ---- Footer ---- */
 .site-footer { background: var(--black-soft); border-top: 1px solid var(--border-gold); color: var(--text-muted); font-size: 14px; }
 .footer-top { padding: 70px 0 50px; }
+
+/* Footer grid — 5 equal cols on desktop, 2 on tablet, 1 on phone */
+.footer-grid {
+  display: grid !important;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr 1.4fr !important;
+  gap: 40px 32px !important;
+  align-items: start !important;
+}
+@media (max-width: 991px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 36px 24px !important;
+  }
+  .footer-grid > div:first-child { grid-column: span 2; }
+}
+@media (max-width: 575px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  .footer-grid > div:first-child { grid-column: span 1; }
+}
 .footer-brand {
   font-family: 'Cinzel', serif;
   font-size: 1.2rem;
@@ -1821,7 +1843,7 @@ button { cursor: pointer; }
   .detail-name { font-size: 1.6rem; }
   .auth-form-panel { padding: 32px 20px; }
   .cta-section { padding: 40px 20px; }
-  .section-pad { padding: 56px 0; }
+  .section-pad { padding: 32px 0; }
 }
 @media (max-width: 480px) {
   .product-grid { grid-template-columns: 1fr; }
