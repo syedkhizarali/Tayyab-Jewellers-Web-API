@@ -2,21 +2,80 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   FiSearch, FiShoppingBag, FiHeart, FiUser, FiMenu, FiX,
-  FiLogOut, FiPackage, FiMapPin, FiSettings, FiChevronDown,
+  FiLogOut, FiPackage, FiMapPin, FiSettings, FiChevronDown, FiPhone,
 } from 'react-icons/fi';
 import { AuthContext }    from '../../context/AuthContext';
 import { CartContext }    from '../../context/CartContext';
 import { WishlistContext } from '../../context/WishlistContext';
 import { getLatestRates } from '../../api/rates';
 
-/* ── colour tokens (site dark-gold theme) ── */
-const G  = '#C9A84C';       // gold
-const GD = '#8B6914';       // gold dark
-const BG = '#0A0A0A';       // navbar bg
-const CR = '#F0EAD6';       // cream
-const MU = '#9A8866';       // muted
+/* ── colour tokens ── */
+const G       = '#C9A84C';
+const GD      = '#8B6914';
+const BG      = '#0A0A0A';
+const CR      = '#F0EAD6';
+const MU      = '#9A8866';
 const BG_CARD = '#1A1A1A';
-const BORDER   = 'rgba(201,168,76,0.18)';
+const BORDER  = 'rgba(201,168,76,0.18)';
+
+/* ── Diamond gem SVG logo ── */
+function DiamondLogo({ size = 46 }) {
+  const c  = '#C9A84C';
+  const h  = Math.round(size * 1.02);
+  return (
+    <svg width={size} height={h} viewBox="0 0 100 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Outer diamond */}
+      <path d="M50 3 L97 50 L50 99 L3 50 Z" stroke={c} strokeWidth="1.9" strokeLinejoin="round"/>
+
+      {/* Girdle / equator line */}
+      <line x1="3" y1="50" x2="97" y2="50" stroke={c} strokeWidth="1.4"/>
+
+      {/* Crown upper table */}
+      <line x1="27" y1="26" x2="73" y2="26" stroke={c} strokeWidth="0.9"/>
+
+      {/* Crown star facets */}
+      <line x1="50" y1="3"  x2="27" y2="26" stroke={c} strokeWidth="0.85"/>
+      <line x1="50" y1="3"  x2="73" y2="26" stroke={c} strokeWidth="0.85"/>
+      <line x1="50" y1="3"  x2="50" y2="26" stroke={c} strokeWidth="0.75"/>
+      <line x1="27" y1="26" x2="3"  y2="50" stroke={c} strokeWidth="0.8"/>
+      <line x1="73" y1="26" x2="97" y2="50" stroke={c} strokeWidth="0.8"/>
+      <line x1="27" y1="26" x2="50" y2="50" stroke={c} strokeWidth="0.7"/>
+      <line x1="73" y1="26" x2="50" y2="50" stroke={c} strokeWidth="0.7"/>
+      <line x1="50" y1="26" x2="27" y2="50" stroke={c} strokeWidth="0.6"/>
+      <line x1="50" y1="26" x2="73" y2="50" stroke={c} strokeWidth="0.6"/>
+
+      {/* Pavilion lower facet lines */}
+      <line x1="27" y1="50" x2="50" y2="99" stroke={c} strokeWidth="0.75"/>
+      <line x1="73" y1="50" x2="50" y2="99" stroke={c} strokeWidth="0.75"/>
+
+      {/* ── Tulip / flower decoration ── */}
+      {/* Vertical stem */}
+      <line x1="50" y1="54" x2="50" y2="91" stroke={c} strokeWidth="1.2"/>
+
+      {/* Centre upward bud */}
+      <path
+        d="M50,54 C47,54 42,58 45,63 C47,67 50,70 50,70 C50,70 53,67 55,63 C58,58 53,54 50,54Z"
+        stroke={c} strokeWidth="1.05" fill="none"
+      />
+
+      {/* Left petal */}
+      <path
+        d="M50,70 C44,66 36,66 33,72 C30,78 38,84 50,79"
+        stroke={c} strokeWidth="1.05" fill="none" strokeLinecap="round"
+      />
+
+      {/* Right petal */}
+      <path
+        d="M50,70 C56,66 64,66 67,72 C70,78 62,84 50,79"
+        stroke={c} strokeWidth="1.05" fill="none" strokeLinecap="round"
+      />
+
+      {/* Small lower leaves */}
+      <path d="M50,83 C50,83 43,78 40,83" stroke={c} strokeWidth="0.85" fill="none" strokeLinecap="round"/>
+      <path d="M50,83 C50,83 57,78 60,83" stroke={c} strokeWidth="0.85" fill="none" strokeLinecap="round"/>
+    </svg>
+  );
+}
 
 export default function Navbar() {
   const { user, logout, isAdmin } = useContext(AuthContext);
@@ -25,29 +84,31 @@ export default function Navbar() {
   const navigate  = useNavigate();
   const location  = useLocation();
 
-  const [scrolled,     setScrolled]     = useState(false);
-  const [mobileOpen,   setMobileOpen]   = useState(false);
-  const [searchOpen,   setSearchOpen]   = useState(false);
-  const [searchQuery,  setSearchQuery]  = useState('');
-  const [userDrop,     setUserDrop]     = useState(false);
-  const [collectOpen,  setCollectOpen]  = useState(false);
-  const [liveRate,     setLiveRate]     = useState(null);
+  const [scrolled,    setScrolled]    = useState(false);
+  const [mobileOpen,  setMobileOpen]  = useState(false);
+  const [searchOpen,  setSearchOpen]  = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [userDrop,    setUserDrop]    = useState(false);
+  const [collectOpen, setCollectOpen] = useState(false);
+  const [liveRate,    setLiveRate]    = useState(null);
 
   const searchRef  = useRef(null);
   const userRef    = useRef(null);
   const collectRef = useRef(null);
 
-  /* scroll effect */
+  const phone        = import.meta.env.VITE_PHONE_NUMBER    || '+923154844005';
+  const phoneDisplay = import.meta.env.VITE_PHONE_DISPLAY   || '+92 315 484 4005';
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  /* close dropdowns on route change */
-  useEffect(() => { setMobileOpen(false); setUserDrop(false); setCollectOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    setMobileOpen(false); setUserDrop(false); setCollectOpen(false);
+  }, [location.pathname]);
 
-  /* live gold rate */
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -61,10 +122,8 @@ export default function Navbar() {
     return () => clearInterval(id);
   }, []);
 
-  /* focus search input when opened */
   useEffect(() => { if (searchOpen && searchRef.current) searchRef.current.focus(); }, [searchOpen]);
 
-  /* close dropdowns on outside click */
   useEffect(() => {
     const fn = (e) => {
       if (userRef.current    && !userRef.current.contains(e.target))    setUserDrop(false);
@@ -85,9 +144,9 @@ export default function Navbar() {
   const handleLogout = () => { logout(); setUserDrop(false); navigate('/'); };
 
   const collectLinks = [
-    { label: 'Bridal Sets', to: '/products?category=bridal' },
-    { label: 'Gold Rings',  to: '/products?category=rings'  },
-    { label: 'Bangles',     to: '/products?category=bangles'},
+    { label: 'Bridal Sets', to: '/products?category=bridal'    },
+    { label: 'Gold Rings',  to: '/products?category=rings'     },
+    { label: 'Bangles',     to: '/products?category=bangles'   },
     { label: 'Necklaces',   to: '/products?category=necklaces' },
     { label: 'Earrings',    to: '/products?category=earrings'  },
     { label: 'Tikka',       to: '/products?category=tikka'     },
@@ -133,28 +192,21 @@ export default function Navbar() {
         boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.6)' : 'none',
       }}>
         <div className="container">
-          {/* Single horizontal flex row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
 
-            {/* Logo */}
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 16 }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: '50%',
-                background: `linear-gradient(135deg,${G},${GD})`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: `0 2px 10px rgba(201,168,76,0.3)`, flexShrink: 0,
-              }}>
-                <span style={{ color: '#fff', fontFamily: 'Cinzel,serif', fontWeight: 700, fontSize: 14 }}>T</span>
-              </div>
+            {/* ── Logo ── */}
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 12 }}>
+              <DiamondLogo size={44} />
               <div>
-                <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 700, fontSize: '0.92rem', letterSpacing: '2px', color: G, lineHeight: 1.1 }}>TAYYAB</div>
-                <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 400, fontSize: '0.6rem',  letterSpacing: '3px', color: CR, lineHeight: 1.1 }}>JEWELLERS</div>
+                <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 700, fontSize: '1.08rem', letterSpacing: '2.5px', color: G, lineHeight: 1.15 }}>TAYYAB</div>
+                <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 400, fontSize: '0.68rem', letterSpacing: '3.5px', color: CR, lineHeight: 1.15 }}>JEWELLERS</div>
               </div>
             </Link>
 
-            {/* ── Desktop: centre nav links ── nb-links hides on mobile */}
+            {/* ── Desktop nav links: Home, Collections, About Us, Contact ── */}
             <div className="nb-links">
-              <NavItem label="Home"     to="/"            active={isActive('/')}      />
+              <NavItem label="Home"     to="/"       active={isActive('/')}      />
+
               {/* Collections dropdown */}
               <div ref={collectRef} style={{ position: 'relative' }}>
                 <button
@@ -187,12 +239,33 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-              <NavItem label="About Us" to="/about"        active={isActive('/about')} />
-              <NavItem label="Contact"  to="/about"        active={false}              />
+
+              <NavItem label="About Us" to="/about"  active={isActive('/about')} />
+              <NavItem label="Contact"  to="/about"  active={false}              />
+
+              {/* ── Phone number button ── */}
+              <a
+                href={`tel:${phone}`}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '8px 18px', borderRadius: 50,
+                  background: `linear-gradient(135deg,${G},${GD})`,
+                  color: BG, fontFamily: 'Jost,sans-serif', fontWeight: 700,
+                  fontSize: 12, textDecoration: 'none',
+                  boxShadow: `0 3px 14px rgba(201,168,76,0.35)`,
+                  transition: 'all 0.25s', letterSpacing: 0.3, whiteSpace: 'nowrap',
+                  marginLeft: 6,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(201,168,76,0.5)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 3px 14px rgba(201,168,76,0.35)'; }}
+              >
+                <FiPhone size={12} /> {phoneDisplay}
+              </a>
             </div>
 
-            {/* ── Desktop: right actions ── nb-right hides on mobile */}
+            {/* ── Desktop right actions: Search, Cart, Profile ── */}
             <div className="nb-right">
+
               {/* Search */}
               <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                 {searchOpen && (
@@ -217,6 +290,15 @@ export default function Navbar() {
                 <IconBtn onClick={() => setSearchOpen(p => !p)}><FiSearch size={16} /></IconBtn>
               </div>
 
+              {/* Cart */}
+              <div style={{ position: 'relative' }}>
+                <IconBtn onClick={() => setIsOpen(true)}>
+                  <FiShoppingBag size={16} />
+                  {cartCount > 0 && <Badge n={cartCount} />}
+                </IconBtn>
+              </div>
+
+              {/* Wishlist (logged-in only) */}
               {user && (
                 <div style={{ position: 'relative' }}>
                   <IconBtn onClick={() => navigate('/wishlist')}>
@@ -226,15 +308,7 @@ export default function Navbar() {
                 </div>
               )}
 
-              {/* Cart — single instance */}
-              <div style={{ position: 'relative' }}>
-                <IconBtn onClick={() => setIsOpen(true)}>
-                  <FiShoppingBag size={16} />
-                  {cartCount > 0 && <Badge n={cartCount} />}
-                </IconBtn>
-              </div>
-
-              {/* User avatar / Sign In */}
+              {/* Profile / Sign In */}
               {user ? (
                 <div ref={userRef} style={{ position: 'relative' }}>
                   <button
@@ -261,9 +335,9 @@ export default function Navbar() {
                         {user.name}
                       </div>
                       {[
-                        { to: '/profile',   icon: <FiUser size={14} />,   label: 'Profile'    },
-                        { to: '/orders',    icon: <FiPackage size={14} />, label: 'My Orders'  },
-                        { to: '/addresses', icon: <FiMapPin size={14} />,  label: 'Addresses'  },
+                        { to: '/profile',   icon: <FiUser size={14} />,    label: 'Profile'   },
+                        { to: '/orders',    icon: <FiPackage size={14} />,  label: 'My Orders' },
+                        { to: '/addresses', icon: <FiMapPin size={14} />,   label: 'Addresses' },
                       ].map(item => (
                         <Link key={item.to} to={item.to}
                           style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 16px', fontSize: 13, fontFamily: 'Jost,sans-serif', color: CR, textDecoration: 'none', transition: 'all 0.15s' }}
@@ -303,29 +377,12 @@ export default function Navbar() {
                   onMouseEnter={e => { e.currentTarget.style.borderColor = G; e.currentTarget.style.color = G; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = BORDER; e.currentTarget.style.color = CR; }}
                 >
-                  Sign In
+                  <FiUser size={13} /> Sign In
                 </Link>
               )}
-
-              {/* CTA button */}
-              <Link to="/custom-order"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '9px 20px', borderRadius: 50,
-                  background: `linear-gradient(135deg,${G},${GD})`,
-                  color: BG, fontFamily: 'Jost,sans-serif', fontWeight: 700,
-                  fontSize: 12, textDecoration: 'none',
-                  boxShadow: `0 3px 14px rgba(201,168,76,0.35)`,
-                  transition: 'all 0.25s', letterSpacing: 0.5, whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(201,168,76,0.5)'; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 3px 14px rgba(201,168,76,0.35)'; }}
-              >
-                Custom Order →
-              </Link>
             </div>
 
-            {/* ── Mobile: only cart + hamburger ── nb-mobile hides on desktop */}
+            {/* ── Mobile: cart + hamburger ── */}
             <div className="nb-mobile">
               <div style={{ position: 'relative' }}>
                 <IconBtn onClick={() => setIsOpen(true)}>
@@ -336,7 +393,7 @@ export default function Navbar() {
               <IconBtn onClick={() => setMobileOpen(true)}><FiMenu size={20} /></IconBtn>
             </div>
 
-          </div>{/* end flex row */}
+          </div>
         </div>
       </nav>
 
@@ -347,15 +404,12 @@ export default function Navbar() {
         transform: mobileOpen ? 'translateX(0)' : 'translateX(100%)',
         transition: 'transform 0.35s ease', overflowY: 'auto',
       }}>
-        {/* Overlay header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 40 }}>
           <Link to="/" onClick={() => setMobileOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg,${G},${GD})`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: '#fff', fontFamily: 'Cinzel,serif', fontWeight: 700, fontSize: 13 }}>T</span>
-            </div>
+            <DiamondLogo size={36} />
             <div>
-              <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '2px', color: G, lineHeight: 1.1 }}>TAYYAB</div>
-              <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 400, fontSize: '0.6rem',  letterSpacing: '3px', color: CR, lineHeight: 1.1 }}>JEWELLERS</div>
+              <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 700, fontSize: '1.05rem', letterSpacing: '2.5px', color: G, lineHeight: 1.15 }}>TAYYAB</div>
+              <div style={{ fontFamily: 'Cinzel,serif', fontWeight: 400, fontSize: '0.65rem', letterSpacing: '3.5px', color: CR, lineHeight: 1.15 }}>JEWELLERS</div>
             </div>
           </Link>
           <button onClick={() => setMobileOpen(false)} style={{ background: 'rgba(201,168,76,0.1)', border: `1px solid ${BORDER}`, width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: CR }}>
@@ -363,12 +417,11 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Overlay links */}
         {[
           { label: 'Home',         to: '/'            },
           { label: 'Collections',  to: '/products'    },
-          { label: 'Custom Order', to: '/custom-order'},
           { label: 'About Us',     to: '/about'       },
+          { label: 'Custom Order', to: '/custom-order'},
           { label: 'My Orders',    to: '/orders'      },
           { label: 'Wishlist',     to: '/wishlist'    },
         ].map(l => (
@@ -376,8 +429,7 @@ export default function Navbar() {
             style={{
               display: 'block', fontFamily: 'Cormorant Garamond,serif',
               fontSize: '1.8rem', fontWeight: 600, color: CR,
-              padding: '14px 0', borderBottom: 'rgba(201,168,76,0.1)',
-              borderBottomWidth: 1, borderBottomStyle: 'solid',
+              padding: '14px 0', borderBottom: '1px solid rgba(201,168,76,0.1)',
               textDecoration: 'none', transition: 'color 0.2s',
             }}
             onMouseEnter={e => e.currentTarget.style.color = G}
@@ -385,7 +437,12 @@ export default function Navbar() {
           >{l.label}</Link>
         ))}
 
-        {/* Auth buttons */}
+        <a href={`tel:${phone}`}
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 0', borderBottom: '1px solid rgba(201,168,76,0.1)', fontFamily: 'Jost,sans-serif', fontSize: '1rem', color: G, textDecoration: 'none' }}
+        >
+          <FiPhone size={16} /> {phoneDisplay}
+        </a>
+
         <div style={{ marginTop: 'auto', paddingTop: 36, display: 'flex', flexDirection: 'column', gap: 12 }}>
           {user ? (
             <button onClick={() => { handleLogout(); setMobileOpen(false); }}
@@ -410,10 +467,8 @@ export default function Navbar() {
   );
 }
 
-/* ── Tiny sub-components ── */
+/* ── Sub-components ── */
 function NavItem({ label, to, active }) {
-  const G  = '#C9A84C';
-  const CR = '#F0EAD6';
   return (
     <Link to={to}
       style={{
