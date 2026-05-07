@@ -261,6 +261,24 @@ export default function Navbar() {
               >
                 <FiPhone size={12} /> {phoneDisplay}
               </a>
+
+              {/* ── Custom Order button ── */}
+              <Link to="/custom-order"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '9px 20px', borderRadius: 50,
+                  background: `linear-gradient(135deg,${G},${GD})`,
+                  color: BG, fontFamily: 'Jost,sans-serif', fontWeight: 700,
+                  fontSize: 12, textDecoration: 'none',
+                  boxShadow: `0 3px 14px rgba(201,168,76,0.35)`,
+                  transition: 'all 0.25s', letterSpacing: 0.5, whiteSpace: 'nowrap',
+                  marginLeft: 4,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(201,168,76,0.5)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 3px 14px rgba(201,168,76,0.35)'; }}
+              >
+                Custom Order →
+              </Link>
             </div>
 
             {/* ── Desktop right actions: Search, Cart, Profile ── */}
